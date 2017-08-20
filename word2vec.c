@@ -613,7 +613,10 @@ void InitNet() {
   }
   
   // Randomly initialize the weights for the hidden layer (word vector layer).
-  // TODO - What's the equation here?
+  // LINEAR CONGRUENTIAL or RESIDUE METHOD for uniform psuedorandom generation: 
+  // x(i)= (a*x(i-1)+c) % m.     i = 0, ..., vocab_size - 1
+  // Where a = 25214903917, c = 11, m = 65536, and then x(i) is normalized to 1
+  // also implemented in POSIX	and glibc
   for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++) {
     next_random = next_random * (unsigned long long)25214903917 + 11;
     syn0[a * layer1_size + b] = (((next_random & 0xFFFF) / (real)65536) - 0.5) / layer1_size;
